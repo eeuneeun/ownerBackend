@@ -1,0 +1,6 @@
+FRONT_HOST=http://ec2-3-39-237-13.ap-northeast-2.compute.amazonaws.com:3000
+DB_HOST=toast-db.cpowqiy80fmc.ap-northeast-2.rds.amazonaws.com
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=qwer1234
+DB_DATABASE=user

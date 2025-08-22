@@ -10,6 +10,7 @@ import {
 import { Menu } from 'src/menu/entities/menu.entity';
 import { Option } from 'src/option/entities/option.entity';
 import { MenuGroup } from './menuGroup.entity';
+import { GroupOption } from './groupOption.entity';
 @Entity()
 export class Group {
   @PrimaryGeneratedColumn()
@@ -25,12 +26,8 @@ export class Group {
   @OneToMany(() => MenuGroup, (menuGroup) => menuGroup.group)
   menuGroups: MenuGroup[];
 
-  // ✅ 다대다 관계
-  @ManyToMany(() => Option, (option) => option.groups, { cascade: true })
-  @JoinTable({
-    name: 'group_options', // 중간 테이블 이름
-    joinColumn: { name: 'group_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'option_id', referencedColumnName: 'id' },
-  })
-  options: Option[];
+  // 기존: @ManyToMany(() => Option, ...)
+  // 변경 후: 중간 엔티티와 연결
+  @OneToMany(() => GroupOption, (groupOption) => groupOption.group)
+  groupOptions: GroupOption[];
 }

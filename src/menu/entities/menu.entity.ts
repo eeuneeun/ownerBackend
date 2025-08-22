@@ -25,7 +25,7 @@ export class Menu {
   @Column()
   desc: string; // 메뉴 설명
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Column({ type: 'decimal', precision: 10, scale: 0, default: 0 })
   price: number; // 기본 가격
 
   @Column()

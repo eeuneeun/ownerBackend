@@ -17,6 +17,7 @@ import { OptionModule } from './option/option.module';
 import { Group } from './group/entities/group.entity';
 import { Option } from './option/entities/option.entity';
 import { MenuGroup } from './group/entities/menuGroup.entity';
+import { GroupOption } from './group/entities/groupOption.entity';
 
 // 명령어
 // $ npx @nestjs/cli g resource [패키지 이름]
@@ -33,7 +34,7 @@ import { MenuGroup } from './group/entities/menuGroup.entity';
       username: 'euneun',
       password: 'qwer1234',
       database: 'merchant',
-      entities: [User, Store, Menu, Group, MenuGroup, Option],
+      entities: [User, Store, Menu, Group, MenuGroup, Option, GroupOption],
       synchronize: true,
 
       // ✅ connection pool 옵션

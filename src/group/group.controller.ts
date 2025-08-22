@@ -8,7 +8,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { GroupService } from './group.service';
-import { CreateGroupDto } from './dto/create-group.dto';
+import { AddOptionsDto, CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 
 @Controller('group')
@@ -28,14 +28,21 @@ export class GroupController {
     return this.groupService.addOption(groupId, optionId);
   }
 
+  @Post('options')
+  async addOptions(@Body() dto: AddOptionsDto) {
+    console.log(dto);
+
+    return this.groupService.addOptions(dto);
+  }
+
   @Get()
   findAll() {
     return this.groupService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.groupService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.groupService.findOne(id);
   }
 
   @Patch(':id')

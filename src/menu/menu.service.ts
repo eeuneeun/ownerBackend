@@ -1,34 +1,67 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateMenuDto } from './dto/create-menu.dto';
-import { UpdateMenuDto } from './dto/update-menu.dto';
+import { AddGroupToMenuDto, UpdateMenuDto } from './dto/update-menu.dto';
 import { Menu } from './entities/menu.entity';
 import { Repository } from 'typeorm';
+import { Group } from 'src/group/entities/group.entity';
+import { MenuGroup } from 'src/group/entities/menuGroup.entity';
 
 @Injectable()
 export class MenuService {
   constructor(
     @InjectRepository(Menu)
-    private MenuRepo: Repository<Menu>,
+    private menuRepo: Repository<Menu>,
+
+    @InjectRepository(Group)
+    private readonly groupRepo: Repository<Group>,
+
+    @InjectRepository(MenuGroup)
+    private readonly menuGroupRepo: Repository<MenuGroup>,
   ) {}
 
   async create(createMenuDto: CreateMenuDto) {
-    const menu = await this.MenuRepo.create({
+    const menu = await this.menuRepo.create({
       ...createMenuDto,
       store: { id: Number(createMenuDto.storeId) },
     });
-    return this.MenuRepo.save(menu);
+    return this.menuRepo.save(menu);
+  }
+
+  async addGroupToMenu(addGroupToMenu: AddGroupToMenuDto) {
+    const menu = await this.menuRepo.findOne({
+      where: { id: addGroupToMenu.menuId },
+    });
+    if (!menu) throw new NotFoundException('Menu not found');
+
+    const group = await this.groupRepo.findOne({
+      where: { id: addGroupToMenu.groupId },
+    });
+    if (!group) throw new NotFoundException('Menu not found');
+
+    const menuGroup = await this.menuGroupRepo.create({
+      menu,
+      group,
+      priority: 0,
+      isRequired: false,
+    });
+
+    return await this.menuGroupRepo.save(menuGroup);
   }
 
   async findAll(storeId: number): Promise<Menu[]> {
-    const result = await this.MenuRepo.find({
+    const result = await this.menuRepo.find({
       where: { store: { id: storeId } },
+      relations: ['menuGroups', 'menuGroups.group'],
     });
     return result;
   }
 
-  async findOne(id: number): Promise<Menu | null> {
-    const result = await this.MenuRepo.findOne({ where: { id: id } });
+  async findOne(id: number, storeId: number): Promise<Menu | null> {
+    const result = await this.menuRepo.findOne({
+      where: { id: id, store: { id: storeId } },
+      relations: ['menuGroups', 'menuGroups.group'],
+    });
     return result;
   }
 
@@ -36,7 +69,7 @@ export class MenuService {
     id: number,
     updateMenuDto: UpdateMenuDto,
   ): Promise<{ message: string }> {
-    const result = await this.MenuRepo.update(id, updateMenuDto);
+    const result = await this.menuRepo.update(id, updateMenuDto);
     if (result.affected === 0) {
       throw new NotFoundException(`Menu with id ${id} not found`);
     }
@@ -44,7 +77,7 @@ export class MenuService {
   }
 
   async remove(id: number): Promise<any> {
-    const result = await this.MenuRepo.delete(id);
+    const result = await this.menuRepo.delete(id);
     if (result.affected === 0) {
       throw new NotFoundException(`Menu with id ${id} not found`);
     }

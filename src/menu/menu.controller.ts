@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { MenuService } from './menu.service';
 import { CreateMenuDto } from './dto/create-menu.dto';
-import { UpdateMenuDto } from './dto/update-menu.dto';
+import { AddGroupToMenuDto, UpdateMenuDto } from './dto/update-menu.dto';
 
 @Controller('menu')
 export class MenuController {
@@ -20,14 +20,19 @@ export class MenuController {
     return this.menuService.create(createMenuDto);
   }
 
-  @Get(':storeId')
+  @Post('/group')
+  addGroupToMenu(@Body() addGroupToMenuDto: AddGroupToMenuDto) {
+    return this.menuService.addGroupToMenu(addGroupToMenuDto);
+  }
+
+  @Get('/store/:storeId')
   findAll(@Param('storeId') storeId: number) {
     return this.menuService.findAll(+storeId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.menuService.findOne(+id);
+  @Get('/:id/store/:storeId')
+  findOne(@Param('id') id: number, @Param('storeId') storeId: number) {
+    return this.menuService.findOne(+id, +storeId);
   }
 
   @Patch(':id')

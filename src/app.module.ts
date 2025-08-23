@@ -29,10 +29,10 @@ import { GroupOption } from './group/entities/groupOption.entity';
     }),
     TypeOrmModule.forRoot({
       type: 'mariadb',
-      host: 'toastapp.cpowqiy80fmc.ap-northeast-2.rds.amazonaws.com',
+      host: 'localhost',
       port: 3306,
-      username: 'euneun',
-      password: 'qwer1234',
+      username: 'root',
+      password: '1234',
       database: 'merchant',
       entities: [User, Store, Menu, Group, MenuGroup, Option, GroupOption],
       synchronize: true,

@@ -31,14 +31,14 @@ export class Menu {
   @Column()
   imgUrl: string; // 메뉴 이미지 주소
 
-  // ✅ N:1 관계
+  // ✅ 상점 : N:1 관계
   @ManyToOne(() => Store, (store) => store.menus, {
     onDelete: 'CASCADE', // store 삭제되면 menu도 삭제됨
   })
   @JoinColumn({ name: 'storeId' }) // FK 컬럼과 매핑
   store: Store;
 
-  // ✅ N:N 중간 테이블
-  @OneToMany(() => MenuGroup, (menuGroup) => menuGroup.menu, { cascade: true })
+  // ✅ 추가 옵션 그룹 : N:N 중간 테이블
+  @OneToMany(() => MenuGroup, (menuGroup) => menuGroup.menu)
   menuGroups: MenuGroup[];
 }

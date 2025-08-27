@@ -27,12 +27,12 @@ export class MenuController {
 
   @Get('/store/:storeId')
   findAll(@Param('storeId') storeId: number) {
-    return this.menuService.findAll(+storeId);
+    return this.menuService.findAll(storeId);
   }
 
   @Get('/:id/store/:storeId')
   findOne(@Param('id') id: number, @Param('storeId') storeId: number) {
-    return this.menuService.findOne(+id, +storeId);
+    return this.menuService.findOne(id, storeId);
   }
 
   @Patch(':id')
@@ -43,5 +43,13 @@ export class MenuController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.menuService.remove(+id);
+  }
+
+  @Delete(':id/group/:groupId')
+  deleteGroupFromMenu(
+    @Param('id') id: number,
+    @Param('groupId') groupId: number,
+  ) {
+    return this.menuService.deleteGroupFromMenu(+id, +groupId);
   }
 }

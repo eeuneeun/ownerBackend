@@ -18,6 +18,8 @@ import { Group } from './group/entities/group.entity';
 import { Option } from './option/entities/option.entity';
 import { MenuGroup } from './group/entities/menuGroup.entity';
 import { GroupOption } from './group/entities/groupOption.entity';
+import { UploadModule } from './upload/upload.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 // 명령어
 // $ npx @nestjs/cli g resource [패키지 이름]
@@ -42,12 +44,16 @@ import { GroupOption } from './group/entities/groupOption.entity';
         connectionLimit: 10, // 풀의 최대 커넥션 개수
       },
     }),
+    MulterModule.register({
+      dest: './uploads', // 저장 경로
+    }),
     UserModule,
     MenuModule,
     AuthModule,
     StoreModule,
     GroupModule,
     OptionModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],

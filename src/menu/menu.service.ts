@@ -25,6 +25,7 @@ export class MenuService {
     try {
       const menu = await this.menuRepo.create({
         ...createMenuDto,
+        store: { id: Number(createMenuDto.storeId) },
       });
       return this.menuRepo.save(menu);
     } catch (err) {

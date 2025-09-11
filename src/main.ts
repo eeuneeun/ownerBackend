@@ -10,6 +10,7 @@ async function bootstrap() {
     origin: [
       'http://localhost:3000',
       'http://localhost:3030',
+      'http://34.158.210.111:3000/',
       'http://34.158.207.71:3030',
     ], // Next.js (프론트) 주소
     credentials: true, // 쿠키/인증정보 허용할 경우

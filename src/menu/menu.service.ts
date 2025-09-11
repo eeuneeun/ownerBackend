@@ -22,11 +22,15 @@ export class MenuService {
   ) {}
 
   async create(createMenuDto: CreateMenuDto) {
-    const menu = await this.menuRepo.create({
-      ...createMenuDto,
-      store: { id: Number(createMenuDto.storeId) },
-    });
-    return this.menuRepo.save(menu);
+    try {
+      const menu = await this.menuRepo.create({
+        ...createMenuDto,
+        store: { id: Number(createMenuDto.storeId) },
+      });
+      return this.menuRepo.save(menu);
+    } catch (err) {
+      console.error('❌ Menu Write error:', err);
+    }
   }
 
   async addGroupToMenu(addGroupToMenu: AddGroupToMenuDto) {

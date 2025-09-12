@@ -62,6 +62,14 @@ export class MenuService {
     return result;
   }
 
+  async findCategoryAll(category: string): Promise<Menu[]> {
+    const result = await this.menuRepo.find({
+      where: { category: category },
+      relations: ['menuGroups', 'menuGroups.group'],
+    });
+    return result;
+  }
+
   async findOne(id: number, storeId: number): Promise<Menu | null> {
     const result = await this.menuRepo.findOne({
       where: { id: id, store: { id: storeId } },

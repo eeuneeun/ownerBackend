@@ -30,6 +30,11 @@ export class MenuController {
     return this.menuService.findAll(storeId);
   }
 
+  @Get('/category/:category')
+  findCategoryAll(@Param('category') category: string) {
+    return this.menuService.findAll(category);
+  }
+
   @Get('/:id/store/:storeId')
   findOne(@Param('id') id: number, @Param('storeId') storeId: number) {
     return this.menuService.findOne(id, storeId);

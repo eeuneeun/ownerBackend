@@ -32,7 +32,7 @@ export class MenuController {
 
   @Get('/category/:category')
   findCategoryAll(@Param('category') category: string) {
-    return this.menuService.findAll(category);
+    return this.menuService.findCategoryAll(category);
   }
 
   @Get('/:id/store/:storeId')

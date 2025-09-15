@@ -2,12 +2,12 @@ import { Module } from '@nestjs/common';
 import { MenuService } from './menu.service';
 import { MenuController } from './menu.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Menu } from './entities/menu.entity';
-import { Group } from 'src/group/entities/group.entity';
-import { MenuGroup } from 'src/group/entities/menuGroup.entity';
+import { OwnerMenu } from './entities/menu.entity';
+import { OwnerGroup } from 'src/group/entities/group.entity';
+import { OwnerMenuGroup } from 'src/group/entities/menuGroup.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Menu, Group, MenuGroup])],
+  imports: [TypeOrmModule.forFeature([OwnerMenu, OwnerGroup, OwnerMenuGroup])],
   controllers: [MenuController],
   providers: [MenuService],
 })

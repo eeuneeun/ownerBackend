@@ -1,17 +1,17 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Group } from './group.entity';
-import { Option } from 'src/option/entities/option.entity';
+import { OwnerGroup } from './group.entity';
+import { OwnerOption } from 'src/option/entities/option.entity';
 
 @Entity()
-export class GroupOption {
+export class OwnerGroupOption {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Group, (group) => group.groupOptions)
-  group: Group;
+  @ManyToOne(() => OwnerGroup, (group) => group.groupOptions)
+  group: OwnerGroup;
 
-  @ManyToOne(() => Option, (option) => option.groupOptions)
-  option: Option;
+  @ManyToOne(() => OwnerOption, (option) => option.groupOptions)
+  option: OwnerOption;
 
   @Column({ default: 1 })
   quantity: number; // 옵션 중복 시 수량 관리 가능

@@ -7,12 +7,12 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import { Menu } from 'src/menu/entities/menu.entity';
-import { Option } from 'src/option/entities/option.entity';
-import { MenuGroup } from './menuGroup.entity';
-import { GroupOption } from './groupOption.entity';
+import { OwnerMenu } from 'src/menu/entities/menu.entity';
+import { OwnerOption } from 'src/option/entities/option.entity';
+import { OwnerMenuGroup } from './menuGroup.entity';
+import { OwnerGroupOption } from './groupOption.entity';
 @Entity()
-export class Group {
+export class OwnerGroup {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -23,11 +23,11 @@ export class Group {
   desc: string;
 
   // ✅ N:N 중간 테이블
-  @OneToMany(() => MenuGroup, (menuGroup) => menuGroup.group)
-  menuGroups: MenuGroup[];
+  @OneToMany(() => OwnerMenuGroup, (menuGroup) => menuGroup.group)
+  menuGroups: OwnerMenuGroup[];
 
-  // 기존: @ManyToMany(() => Option, ...)
+  // 기존: @ManyToMany(() => OwnerOption, ...)
   // 변경 후: 중간 엔티티와 연결
-  @OneToMany(() => GroupOption, (groupOption) => groupOption.group)
-  groupOptions: GroupOption[];
+  @OneToMany(() => OwnerGroupOption, (groupOption) => groupOption.group)
+  groupOptions: OwnerGroupOption[];
 }

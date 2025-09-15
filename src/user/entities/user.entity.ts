@@ -1,8 +1,8 @@
-import { Store } from 'src/store/entities/store.entity';
+import { OwnerStore } from 'src/store/entities/store.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
-export class User {
+export class OwnerUser {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -19,6 +19,6 @@ export class User {
   email: string;
 
   // ✅ N:N 중간 테이블
-  @OneToMany(() => Store, (stores) => stores.owner, { cascade: true })
-  stores: Store[];
+  @OneToMany(() => OwnerStore, (stores) => stores.owner, { cascade: true })
+  stores: OwnerStore[];
 }

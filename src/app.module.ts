@@ -9,15 +9,16 @@ import { MenuModule } from './menu/menu.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
-import { User } from './user/entities/user.entity';
-import { Store } from './store/entities/store.entity';
-import { Menu } from './menu/entities/menu.entity';
+import { OwnerUser } from './user/entities/user.entity';
+import { OwnerStore } from './store/entities/store.entity';
+import { OwnerMenu } from './menu/entities/menu.entity';
+import { OwnerGroup } from './group/entities/group.entity';
+import { OwnerOption } from './option/entities/option.entity';
+import { OwnerMenuGroup } from './group/entities/menuGroup.entity';
+import { OwnerGroupOption } from './group/entities/groupOption.entity';
+
 import { GroupModule } from './group/group.module';
 import { OptionModule } from './option/option.module';
-import { Group } from './group/entities/group.entity';
-import { Option } from './option/entities/option.entity';
-import { MenuGroup } from './group/entities/menuGroup.entity';
-import { GroupOption } from './group/entities/groupOption.entity';
 import { UploadModule } from './upload/upload.module';
 import { MulterModule } from '@nestjs/platform-express';
 
@@ -31,12 +32,20 @@ import { MulterModule } from '@nestjs/platform-express';
     }),
     TypeOrmModule.forRoot({
       type: 'mariadb',
-      host: '34.64.34.242',
+      host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'Xhtmxm1357!',
-      database: 'merchant',
-      entities: [User, Store, Menu, Group, MenuGroup, Option, GroupOption],
+      password: '1234',
+      database: 'toast',
+      entities: [
+        OwnerUser,
+        OwnerStore,
+        OwnerMenu,
+        OwnerGroup,
+        OwnerMenuGroup,
+        OwnerOption,
+        OwnerGroupOption,
+      ],
       synchronize: true,
 
       // ✅ connection pool 옵션

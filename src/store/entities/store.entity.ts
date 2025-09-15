@@ -1,16 +1,15 @@
-import { Menu } from 'src/menu/entities/menu.entity';
-import { User } from 'src/user/entities/user.entity';
+import { OwnerMenu } from 'src/menu/entities/menu.entity';
+import { OwnerUser } from 'src/user/entities/user.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  OneToOne,
   ManyToOne,
   OneToMany,
 } from 'typeorm';
 
 @Entity()
-export class Store {
+export class OwnerStore {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -35,11 +34,11 @@ export class Store {
   @Column()
   imgUrl: string;
 
-  // ✅ 여러 Store가 1명의 User(주인)를 가질 수 있음
-  @ManyToOne(() => User, (user) => user.stores, { onDelete: 'CASCADE' })
-  owner: User;
+  // ✅ 여러 Store가 1명의 OwnerUser(주인)를 가질 수 있음
+  @ManyToOne(() => OwnerUser, (user) => user.stores, { onDelete: 'CASCADE' })
+  owner: OwnerUser;
 
   // ✅ 1:N 관계
-  @OneToMany(() => Menu, (menu) => menu.store, { cascade: true })
-  menus: Menu[];
+  @OneToMany(() => OwnerMenu, (menu) => menu.store, { cascade: true })
+  menus: OwnerMenu[];
 }

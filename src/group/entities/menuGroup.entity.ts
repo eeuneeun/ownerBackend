@@ -1,17 +1,21 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Menu } from 'src/menu/entities/menu.entity';
-import { Group } from './group.entity';
+import { OwnerMenu } from 'src/menu/entities/menu.entity';
+import { OwnerGroup } from './group.entity';
 
 @Entity()
-export class MenuGroup {
+export class OwnerMenuGroup {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Menu, (menu) => menu.menuGroups, { onDelete: 'CASCADE' })
-  menu: Menu;
+  @ManyToOne(() => OwnerMenu, (menu) => menu.menuGroups, {
+    onDelete: 'CASCADE',
+  })
+  menu: OwnerMenu;
 
-  @ManyToOne(() => Group, (group) => group.menuGroups, { onDelete: 'CASCADE' })
-  group: Group;
+  @ManyToOne(() => OwnerGroup, (group) => group.menuGroups, {
+    onDelete: 'CASCADE',
+  })
+  group: OwnerGroup;
 
   // 추가 속성
   @Column({ default: 0 })

@@ -6,10 +6,10 @@ import {
   ManyToMany,
   OneToMany,
 } from 'typeorm';
-import { Group } from 'src/group/entities/group.entity';
-import { GroupOption } from 'src/group/entities/groupOption.entity';
+import { OwnerGroup } from 'src/group/entities/group.entity';
+import { OwnerGroupOption } from 'src/group/entities/groupOption.entity';
 @Entity()
-export class Option {
+export class OwnerOption {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -25,8 +25,8 @@ export class Option {
   @Column({ nullable: true })
   imgUrl: string;
 
-  // 기존: @ManyToMany(() => Option, ...)
+  // 기존: @ManyToMany(() => OwnerOption, ...)
   // 변경 후: 중간 엔티티와 연결
-  @OneToMany(() => GroupOption, (groupOption) => groupOption.option)
-  groupOptions: GroupOption[];
+  @OneToMany(() => OwnerGroupOption, (groupOption) => groupOption.option)
+  groupOptions: OwnerGroupOption[];
 }

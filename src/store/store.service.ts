@@ -1,18 +1,18 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateStoreDto } from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
-import { Store } from './entities/store.entity';
+import { OwnerStore } from './entities/store.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from 'src/user/entities/user.entity';
+import { OwnerUser } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class StoreService {
   constructor(
-    @InjectRepository(User)
-    private userRepo: Repository<User>,
-    @InjectRepository(Store)
-    private storeRepo: Repository<Store>,
+    @InjectRepository(OwnerUser)
+    private userRepo: Repository<OwnerUser>,
+    @InjectRepository(OwnerStore)
+    private storeRepo: Repository<OwnerStore>,
   ) {}
 
   async create(createStoreDto: CreateStoreDto) {
@@ -22,11 +22,11 @@ export class StoreService {
     });
     if (!user) {
       throw new NotFoundException(
-        `User with ID ${createStoreDto.userId} not found`,
+        `OwnerUser with ID ${createStoreDto.userId} not found`,
       );
     }
 
-    // 2. Store 엔티티 생성
+    // 2. OwnerStore 엔티티 생성
     const store = this.storeRepo.create({
       name: createStoreDto.name,
       address: createStoreDto.address,
@@ -42,7 +42,7 @@ export class StoreService {
     return await this.storeRepo.save(store);
   }
 
-  async findAll(): Promise<Store[]> {
+  async findAll(): Promise<OwnerStore[]> {
     return this.storeRepo.find();
   }
 

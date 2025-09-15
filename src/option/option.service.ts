@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Option } from './entities/option.entity';
-import { Group } from 'src/group/entities/group.entity';
+import { OwnerOption } from './entities/option.entity';
+import { OwnerGroup } from 'src/group/entities/group.entity';
 
 @Injectable()
 export class OptionService {
   constructor(
-    @InjectRepository(Option) private optionRepo: Repository<Option>,
-    @InjectRepository(Group) private groupRepo: Repository<Group>,
+    @InjectRepository(OwnerOption) private optionRepo: Repository<OwnerOption>,
+    @InjectRepository(OwnerGroup) private groupRepo: Repository<OwnerGroup>,
   ) {}
 
   async create(createOptionDto) {
@@ -16,7 +16,7 @@ export class OptionService {
     return this.optionRepo.save(option);
   }
 
-  async findAll(): Promise<Option[]> {
+  async findAll(): Promise<OwnerOption[]> {
     const result = await this.optionRepo.find();
     return result;
   }

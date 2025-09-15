@@ -2,23 +2,23 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateMenuDto } from './dto/create-menu.dto';
 import { AddGroupToMenuDto, UpdateMenuDto } from './dto/update-menu.dto';
-import { Menu } from './entities/menu.entity';
+import { OwnerMenu } from './entities/menu.entity';
 import { Repository } from 'typeorm';
-import { Group } from 'src/group/entities/group.entity';
-import { MenuGroup } from 'src/group/entities/menuGroup.entity';
+import { OwnerGroup } from 'src/group/entities/group.entity';
+import { OwnerMenuGroup } from 'src/group/entities/menuGroup.entity';
 import { group } from 'console';
 
 @Injectable()
 export class MenuService {
   constructor(
-    @InjectRepository(Menu)
-    private menuRepo: Repository<Menu>,
+    @InjectRepository(OwnerMenu)
+    private menuRepo: Repository<OwnerMenu>,
 
-    @InjectRepository(Group)
-    private readonly groupRepo: Repository<Group>,
+    @InjectRepository(OwnerGroup)
+    private readonly groupRepo: Repository<OwnerGroup>,
 
-    @InjectRepository(MenuGroup)
-    private readonly menuGroupRepo: Repository<MenuGroup>,
+    @InjectRepository(OwnerMenuGroup)
+    private readonly menuGroupRepo: Repository<OwnerMenuGroup>,
   ) {}
 
   async create(createMenuDto: CreateMenuDto) {
@@ -29,7 +29,7 @@ export class MenuService {
       });
       return this.menuRepo.save(menu);
     } catch (err) {
-      console.error('❌ Menu Write error:', err);
+      console.error('❌ OwnerMenu Write error:', err);
     }
   }
 
@@ -37,12 +37,12 @@ export class MenuService {
     // const menu = await this.menuRepo.findOne({
     //   where: { id: addGroupToMenu.menuId },
     // });
-    // if (!menu) throw new NotFoundException('Menu not found');
+    // if (!menu) throw new NotFoundException('OwnerMenu not found');
 
     // const group = await this.groupRepo.findOne({
     //   where: { id: addGroupToMenu.groupId },
     // });
-    // if (!group) throw new NotFoundException('Menu not found');
+    // if (!group) throw new NotFoundException('OwnerMenu not found');
 
     const menuGroup = await this.menuGroupRepo.create({
       menu: { id: addGroupToMenu.menuId },
@@ -54,7 +54,7 @@ export class MenuService {
     return await this.menuGroupRepo.save(menuGroup);
   }
 
-  async findAll(storeId: number): Promise<Menu[]> {
+  async findAll(storeId: number): Promise<OwnerMenu[]> {
     const result = await this.menuRepo.find({
       where: { store: { id: storeId } },
       relations: ['menuGroups', 'menuGroups.group'],
@@ -62,7 +62,7 @@ export class MenuService {
     return result;
   }
 
-  async findCategoryAll(category: string): Promise<Menu[]> {
+  async findCategoryAll(category: string): Promise<OwnerMenu[]> {
     const result = await this.menuRepo.find({
       where: { category: category },
       relations: ['menuGroups', 'menuGroups.group'],
@@ -70,7 +70,7 @@ export class MenuService {
     return result;
   }
 
-  async findOne(id: number, storeId: number): Promise<Menu | null> {
+  async findOne(id: number, storeId: number): Promise<OwnerMenu | null> {
     const result = await this.menuRepo.findOne({
       where: { id: id, store: { id: storeId } },
       relations: [
@@ -89,17 +89,17 @@ export class MenuService {
   ): Promise<{ message: string }> {
     const result = await this.menuRepo.update(id, updateMenuDto);
     if (result.affected === 0) {
-      throw new NotFoundException(`Menu with id ${id} not found`);
+      throw new NotFoundException(`OwnerMenu with id ${id} not found`);
     }
-    return { message: `Menu ${id} updated` };
+    return { message: `OwnerMenu ${id} updated` };
   }
 
   async remove(id: number): Promise<any> {
     const result = await this.menuRepo.delete(id);
     if (result.affected === 0) {
-      throw new NotFoundException(`Menu with id ${id} not found`);
+      throw new NotFoundException(`OwnerMenu with id ${id} not found`);
     }
-    return { message: `Menu ${id} updated` };
+    return { message: `OwnerMenu ${id} updated` };
   }
 
   async deleteGroupFromMenu(id: number, groupId: number): Promise<any> {

@@ -2,18 +2,18 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { AddOptionsDto, CreateGroupDto } from './dto/create-group.dto';
-import { Group } from './entities/group.entity';
-import { Menu } from 'src/menu/entities/menu.entity';
-import { Option } from 'src/option/entities/option.entity';
-import { GroupOption } from './entities/groupOption.entity';
+import { OwnerGroup } from './entities/group.entity';
+import { OwnerMenu } from 'src/menu/entities/menu.entity';
+import { OwnerOption } from 'src/option/entities/option.entity';
+import { OwnerGroupOption } from './entities/groupOption.entity';
 @Injectable()
 export class GroupService {
   constructor(
-    @InjectRepository(Group) private groupRepo: Repository<Group>,
-    @InjectRepository(Menu) private menuRepo: Repository<Menu>,
-    @InjectRepository(Option) private optionRepo: Repository<Option>,
-    @InjectRepository(GroupOption)
-    private groupOptionRepo: Repository<GroupOption>,
+    @InjectRepository(OwnerGroup) private groupRepo: Repository<OwnerGroup>,
+    @InjectRepository(OwnerMenu) private menuRepo: Repository<OwnerMenu>,
+    @InjectRepository(OwnerOption) private optionRepo: Repository<OwnerOption>,
+    @InjectRepository(OwnerGroupOption)
+    private groupOptionRepo: Repository<OwnerGroupOption>,
   ) {}
 
   async create(createGroupDto: CreateGroupDto) {
@@ -53,9 +53,9 @@ export class GroupService {
     //   where: { id: groupId },
     //   relations: ['option'],
     // });
-    // if (!group) throw new Error('Group not found');
+    // if (!group) throw new Error('OwnerGroup not found');
     // const option = await this.optionRepo.findOneBy({ id: optionId });
-    // if (!option) throw new Error('Option not found');
+    // if (!option) throw new Error('OwnerOption not found');
     // // group.option.push(option);
     // return this.groupRepo.save(group);
   }
@@ -66,13 +66,14 @@ export class GroupService {
       where: { id: dto.groupId },
       relations: ['groupOptions'],
     });
-    if (!group) throw new NotFoundException('Group not found');
+    if (!group) throw new NotFoundException('OwnerGroup not found');
 
     for (const optionId of dto.options) {
       const option = await this.optionRepo.findOne({ where: { id: optionId } });
-      if (!option) throw new NotFoundException(`Option ${optionId} not found`);
+      if (!option)
+        throw new NotFoundException(`OwnerOption ${optionId} not found`);
 
-      // 이미 GroupOption 존재 시 quantity 증가
+      // 이미 OwnerGroupOption 존재 시 quantity 증가
       let groupOption = await this.groupOptionRepo.findOne({
         where: { group: { id: group.id }, option: { id: option.id } },
         relations: ['group', 'option'],
